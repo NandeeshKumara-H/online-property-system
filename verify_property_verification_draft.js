@@ -1,4 +1,4 @@
-const http = require('http');
+const http = require('https');
 const fs = require('fs');
 const path = require('path');
 
@@ -47,7 +47,7 @@ async function run() {
         // Initiate Signup
         console.log(`Initiating signup for ${email}...`);
         await makeRequest({
-            hostname: 'localhost', port: 3000, path: '/api/auth/signup/initiate', method: 'POST',
+            hostname: 'online-property-system-1.onrender.com', path: '/api/auth/signup/initiate', method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         }, JSON.stringify({ email, phone: '1234567890' }));
 

@@ -1,4 +1,4 @@
-const http = require('http');
+const http = require('https');
 const fs = require('fs');
 const path = require('path');
 
@@ -29,7 +29,7 @@ async function run() {
         // 1. Login User
         console.log('1. Logging in User...');
         const userLogin = await makeRequest({
-            hostname: 'localhost', port: 3000, path: '/api/login-password', method: 'POST',
+            hostname: 'online-property-system-1.onrender.com', path: '/api/login-password', method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         }, JSON.stringify({ email: 'verifier@example.com', password: 'password123' }));
 
@@ -71,7 +71,7 @@ async function run() {
         body += `--${boundary}--`;
 
         const propertyRes = await makeRequest({
-            hostname: 'localhost', port: 3000, path: '/api/property/add', method: 'POST',
+            hostname: 'online-property-system-1.onrender.com', path: '/api/property/add', method: 'POST',
             headers: {
                 'Content-Type': `multipart/form-data; boundary=${boundary}`,
                 'Authorization': `Bearer ${userToken}`
@@ -84,7 +84,7 @@ async function run() {
         // 3. Login Admin
         console.log('3. Logging in Admin...');
         const adminLogin = await makeRequest({
-            hostname: 'localhost', port: 3000, path: '/api/admin/login', method: 'POST',
+            hostname: 'online-property-system-1.onrender.com', path: '/api/admin/login', method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         }, JSON.stringify({ username: 'admin', password: 'admin' }));
 
@@ -95,7 +95,7 @@ async function run() {
         // 4. Verify Property Details
         console.log('4. Verifying Property Details...');
         const pendingRes = await makeRequest({
-            hostname: 'localhost', port: 3000, path: '/api/admin/properties/pending', method: 'GET',
+            hostname: 'online-property-system-1.onrender.com', path: '/api/admin/properties/pending', method: 'GET',
             headers: { 'Authorization': `Bearer ${adminToken}` }
         });
 

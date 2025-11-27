@@ -13,7 +13,7 @@
     ```bash
     npm start
     ```
-    The server will start on `http://localhost:3000`.
+    The server will start on `https://online-property-system-1.onrender.com`.
 
 3.  **Database**:
     Ensure you have MongoDB running locally on `mongodb://localhost:27017`. If you don't have it installed, please install MongoDB Community Server.
@@ -21,7 +21,7 @@
 ## User Flow Verification
 
 ### 1. User Registration & Login
-1.  Open `http://localhost:3000` in your browser.
+1.  Open `https://online-property-system-1.onrender.com` in your browser.
 2.  Click **Sign Up** in the navbar.
 3.  Fill in your details (Name, Email, Phone, Password) and submit.
 4.  You will be redirected to the **User Dashboard**.
@@ -36,7 +36,7 @@
 
 ### 3. Admin Approval
 1.  Open a new incognito window or logout.
-2.  Go to `http://localhost:3000/admin-login.html`.
+2.  Go to `https://online-property-system-1.onrender.com/admin-login.html`.
 3.  Login with default admin credentials:
     -   **Username**: `admin`
     -   **Password**: `admin`
@@ -45,7 +45,7 @@
 5.  Click **Approve** on the property you just posted.
 
 ### 4. Verify Public Listing
-1.  Go back to the **Home Page** (`http://localhost:3000`).
+1.  Go back to the **Home Page** (`https://online-property-system-1.onrender.com`).
 2.  Scroll down to "Featured Properties". You should now see your approved property.
 3.  Click on the property card to view the **Property Details** page.
 4.  Verify that all details (images, map, owner info) are displayed correctly.
@@ -58,3 +58,20 @@
 -   **Multer**: Image upload support.
 -   **Admin System**: Approval workflow for properties.
 -   **Responsive Design**: Works on mobile and desktop.
+
+## Debugging Mobile OTP
+
+### 1. Improved Error Handling
+**File:** `public/js/login.js` & `public/js/api.js`
+- Added detailed error reporting to the frontend.
+- If the server returns an error (like a 500 crash or a 404 page), the alert will now tell you exactly what happened instead of just saying "Error sending OTP".
+
+## Verification Steps
+
+### Manual Verification (User Required)
+1.  **Deploy to Render**: The changes have been pushed. Wait for the deployment to finish.
+2.  **Test Signup Again**:
+    -   Go to the Signup page on your live site.
+    -   Try to send the OTP again.
+    -   **Read the Alert**: If it fails, the alert will now show a specific error message (e.g., "Server returned non-JSON response: 500 Internal Server Error").
+    -   **Report the Error**: Please tell me exactly what the new alert says. This will help me pinpoint the issue.

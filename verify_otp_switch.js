@@ -1,4 +1,4 @@
-const http = require('http');
+const http = require('https');
 
 const data = JSON.stringify({
     email: 'test@example.com',
@@ -6,8 +6,8 @@ const data = JSON.stringify({
 });
 
 const options = {
-    hostname: 'localhost',
-    port: 3000, // Default port from server.js
+    hostname: 'online-property-system-1.onrender.com',
+    // port: 3000, // Default port from server.js
     path: '/api/signup/initiate',
     method: 'POST',
     headers: {
