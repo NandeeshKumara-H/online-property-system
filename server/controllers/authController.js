@@ -41,41 +41,6 @@ const sendEmail = async (to, subject, text) => {
     }
 };
 
-const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-
-const sendWhatsApp = async (to, text) => {
-    if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_WHATSAPP_NUMBER) {
-        console.log('>>> TWILIO CREDENTIALS MISSING IN .env <<<');
-        console.log(`>>> SIMULATED WHATSAPP TO ${to}: ${text} <<<`);
-        return;
-    }
-
-    // Ensure we don't double-prefix if the user added 'whatsapp:' in .env
-    const senderNumber = process.env.TWILIO_WHATSAPP_NUMBER.replace('whatsapp:', '').trim();
-    const formattedFrom = `whatsapp:${senderNumber}`;
-
-    // Ensure 'to' number has country code (default to +91 for India if missing)
-    let cleanTo = to.replace('whatsapp:', '').trim();
-    if (!cleanTo.startsWith('+')) {
-        cleanTo = `+91${cleanTo}`;
-    }
-    const formattedTo = `whatsapp:${cleanTo}`;
-
-    console.log(`[DEBUG] Sending WhatsApp From: ${formattedFrom} To: ${formattedTo}`);
-
-    try {
-        await client.messages.create({
-            body: text,
-            from: formattedFrom,
-            to: formattedTo
-        });
-        console.log(`WhatsApp sent to ${formattedTo}`);
-    } catch (error) {
-        console.error('Error sending WhatsApp:', error);
-        console.log(`>>> FALLBACK SIMULATION TO ${to}: ${text} <<<`);
-    }
-};
-
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
 
 // --- LOGIN (PASSWORD) ---
@@ -109,13 +74,6 @@ exports.initiateSignup = async (req, res) => {
 
         // Send Email
         await sendEmail(email, 'Your Signup OTP', `Your OTP for signup is: ${otp}`);
-
-        // Send WhatsApp (if phone provided) - DISABLED
-        // if (phone) {
-        //     await sendWhatsApp(phone, `Your OTP for signup is: ${otp}`);
-        // } else {
-        //      console.log('No phone number provided for WhatsApp OTP');
-        // }
 
         res.json({ message: 'OTP sent to Email' });
     } catch (error) {
