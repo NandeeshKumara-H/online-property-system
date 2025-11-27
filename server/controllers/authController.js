@@ -111,7 +111,7 @@ exports.initiateSignup = async (req, res) => {
         // if (phone) {
         //     await sendWhatsApp(phone, `Your OTP for signup is: ${otp}`);
         // } else {
-        //     return res.status(400).json({ message: 'Phone number is required for OTP' });
+        //      console.log('No phone number provided for WhatsApp OTP');
         // }
 
         res.json({ message: 'OTP sent to Email' });
