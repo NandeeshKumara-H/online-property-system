@@ -10,11 +10,14 @@ const generateToken = (user) => {
 
 // Email Transporter
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: "smtp.gmail.com",
+    port: 465,          // ✅ IMPORTANT: use 465 instead of 587
+    secure: true,       // ✅ true for port 465
     auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
+        pass: process.env.EMAIL_PASS,
+    },
+    connectionTimeout: 20000, // ✅ avoid timeout
 });
 
 const sendEmail = async (to, subject, text) => {
