@@ -23,7 +23,14 @@ const api = {
             headers,
             body: JSON.stringify(data)
         });
-        return response.json();
+
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+            return response.json();
+        } else {
+            const text = await response.text();
+            throw new Error(`Server returned non-JSON response: ${response.status} ${response.statusText}. Body: ${text.substring(0, 100)}...`);
+        }
     },
 
     async postFormData(endpoint, formData) {
@@ -36,7 +43,14 @@ const api = {
             headers,
             body: formData
         });
-        return response.json();
+
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+            return response.json();
+        } else {
+            const text = await response.text();
+            throw new Error(`Server returned non-JSON response: ${response.status} ${response.statusText}. Body: ${text.substring(0, 100)}...`);
+        }
     },
 
     async put(endpoint, data) {

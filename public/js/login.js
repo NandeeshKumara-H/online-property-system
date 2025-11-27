@@ -44,7 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert(res.message || 'Failed to send OTP');
                 }
             } catch (err) {
-                alert('Error sending OTP');
+                console.error('Signup Error:', err);
+                alert('Error sending OTP: ' + err.message);
             }
         });
 
