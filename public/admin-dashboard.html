@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Online Property Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="/">HousingClone Admin</a></div>
+        <ul class="nav-links">
+            <li><a href="#" onclick="logout()">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="#" class="active" onclick="showSection('pending')">Pending Properties</a></li>
+                <li><a href="#" onclick="showSection('users')">Manage Users</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <div id="pending-section">
+                <h2>Pending Properties</h2>
+                <div class="property-grid" id="pending-properties" style="padding: 20px 0;">
+                    <p>Loading...</p>
+                </div>
+            </div>
+            <div id="users-section" style="display: none;">
+                <h2>Manage Users</h2>
+                <div id="users-list" style="margin-top: 20px;">
+                    <p>Loading...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>

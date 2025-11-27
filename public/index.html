@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Property Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="/">HousingClone</a></div>
+        <ul class="nav-links" id="nav-links">
+            <!-- Links injected by auth.js -->
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h1>Find Your Dream Home</h1>
+        <p>Search properties for sale and to rent in your area</p>
+        
+        <div class="search-bar">
+            <select id="city">
+                <option value="">Select City</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Delhi">Delhi</option>
+            </select>
+            <select id="type">
+                <option value="">Property Type</option>
+                <option value="Rent">Rent</option>
+                <option value="Buy">Buy</option>
+                <option value="PG">PG</option>
+                <option value="Commercial">Commercial</option>
+            </select>
+            <input type="number" id="budget" placeholder="Max Budget">
+            <button class="btn btn-primary" onclick="searchProperties()">Search</button>
+        </div>
+    </header>
+
+    <section>
+        <h2 class="section-title">Featured Properties</h2>
+        <div class="property-grid" id="featured-properties">
+            <!-- Properties injected by app.js -->
+            <p style="text-align:center; width:100%;">Loading properties...</p>
+        </div>
+    </section>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

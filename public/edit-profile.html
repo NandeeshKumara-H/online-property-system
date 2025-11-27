@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - Online Property Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="/">HousingClone</a></div>
+        <ul class="nav-links" id="nav-links"></ul>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="/dashboard.html">Overview</a></li>
+                <li><a href="/post-property.html">Post Property</a></li>
+                <li><a href="/my-listings.html">My Listings</a></li>
+                <li><a href="/edit-profile.html" class="active">Edit Profile</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <h2>Edit Profile</h2>
+            <form id="edit-profile-form" style="max-width: 500px; margin-top: 20px;">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" disabled style="background: #f0f0f0;">
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" id="phone">
+                </div>
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form>
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

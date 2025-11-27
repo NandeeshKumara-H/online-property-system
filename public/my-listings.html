@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Listings - Online Property Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="/">HousingClone</a></div>
+        <ul class="nav-links" id="nav-links"></ul>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="/dashboard.html">Overview</a></li>
+                <li><a href="/post-property.html">Post Property</a></li>
+                <li><a href="/my-listings.html" class="active">My Listings</a></li>
+                <li><a href="/edit-profile.html">Edit Profile</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <h2>My Listings</h2>
+            <div class="property-grid" id="my-properties" style="padding: 20px 0;">
+                <p>Loading...</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

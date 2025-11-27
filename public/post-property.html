@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Property - Online Property Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="/">HousingClone</a></div>
+        <ul class="nav-links" id="nav-links"></ul>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="/dashboard.html">Overview</a></li>
+                <li><a href="/post-property.html" class="active">Post Property</a></li>
+                <li><a href="/my-listings.html">My Listings</a></li>
+                <li><a href="/edit-profile.html">Edit Profile</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <h2>Post a New Property</h2>
+            <form id="post-property-form" style="max-width: 600px; margin-top: 20px;">
+                <div class="form-group">
+                    <label>Property Title</label>
+                    <input type="text" id="title" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Price (₹)</label>
+                    <input type="number" id="price" required>
+                </div>
+                <div class="form-group">
+                    <label>District</label>
+                    <select id="district" required onchange="populateTalukas()">
+                        <option value="">Select District</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Taluka</label>
+                    <select id="taluka" required disabled>
+                        <option value="">Select Taluka</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Hobli</label>
+                    <input type="text" id="hobli">
+                </div>
+                <div class="form-group">
+                    <label>Village</label>
+                    <input type="text" id="village">
+                </div>
+                <div class="form-group">
+                    <label>Address (District, Taluk, Hobli, Village)</label>
+                    <input type="text" id="address" required>
+                </div>
+                <div class="form-group">
+                    <label>Survey Number / Khata Number</label>
+                    <input type="text" id="surveyNumber" required>
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="type" required>
+                        <option value="Rent">Rent</option>
+                        <option value="Buy">Buy</option>
+                        <option value="PG">PG</option>
+                        <option value="Commercial">Commercial</option>
+                        <option value="Plot">Plot</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Size / Area</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="size" required style="flex: 2;">
+                        <select id="sizeUnit" style="flex: 1;">
+                            <option value="sq ft">sq ft</option>
+                            <option value="acres">acres</option>
+                            <option value="gunta">gunta</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Owner Full Name (as per records)</label>
+                    <input type="text" id="ownerName" required>
+                </div>
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="text" id="contactNumber" required>
+                </div>
+                <div class="form-group">
+                    <label>Supporting Documents (RTC, Sale Deed, Tax Receipt, etc.)</label>
+                    <input type="file" id="verificationDocs" multiple accept=".pdf,.jpg,.jpeg,.png">
+                    <small>Upload at least one document for verification.</small>
+                </div>
+                <div class="form-group">
+                    <label>Property Images (Max 5)</label>
+                    <input type="file" id="images" multiple accept="image/*">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Property for Verification</button>
+            </form>
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/locations.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

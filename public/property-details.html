@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details - Online Property Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .details-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .gallery {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+
+        .gallery img {
+            height: 300px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .info-section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .price-tag {
+            font-size: 2rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .owner-card {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="/">HousingClone</a></div>
+        <ul class="nav-links" id="nav-links"></ul>
+    </nav>
+
+    <div class="details-container" id="property-details">
+        <p>Loading...</p>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            const container = document.getElementById('property-details');
+
+            if (!id) {
+                container.innerHTML = '<p>Property not found.</p>';
+                return;
+            }
+
+            try {
+                const property = await api.get(`/property/${id}`);
+
+                let imagesHtml = '';
+                if (property.images && property.images.length > 0) {
+                    imagesHtml = '<div class="gallery">';
+                    property.images.forEach(img => {
+                        imagesHtml += `<img src="/${img}" alt="Property Image">`;
+                    });
+                    imagesHtml += '</div>';
+                } else {
+                    imagesHtml = '<div class="gallery"><img src="https://via.placeholder.com/800x400?text=No+Image" style="width:100%;"></div>';
+                }
+
+                container.innerHTML = `
+                    ${imagesHtml}
+                    <div class="info-section">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                            <h1>${property.title}</h1>
+                            <div class="price-tag">₹${property.price.toLocaleString()}</div>
+                        </div>
+                        <p style="font-size:1.1rem; color:#666; margin-bottom:20px;">${property.address}, ${property.city}</p>
+                        
+                        <h3>Description</h3>
+                        <p style="margin-bottom:30px;">${property.description}</p>
+
+                        <div style="display:flex; gap:20px; margin-bottom:30px;">
+                            <div class="tag" style="font-size:1rem; padding:10px 20px;">Type: ${property.type}</div>
+                            <div class="tag" style="font-size:1rem; padding:10px 20px;">Status: ${property.status}</div>
+                        </div>
+
+                        <div class="owner-card">
+                            <h3>Contact Owner</h3>
+                            <p><strong>Name:</strong> ${property.owner.name}</p>
+                            <p><strong>Email:</strong> ${property.owner.email}</p>
+                            <p><strong>Phone:</strong> ${property.owner.phone || 'Not available'}</p>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <h3>Location</h3>
+                            <iframe 
+                                width="100%" 
+                                height="300" 
+                                frameborder="0" 
+                                style="border:0; border-radius:8px;" 
+                                src="https://maps.google.com/maps?q=${encodeURIComponent(property.city + ' ' + property.address)}&t=&z=13&ie=UTF8&iwloc=&output=embed">
+                            </iframe>
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                container.innerHTML = '<p>Error loading property details.</p>';
+            }
+        });
+    </script>
+</body>
+
+</html>

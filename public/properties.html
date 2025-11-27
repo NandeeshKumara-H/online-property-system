@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Properties - Online Property Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="/">HousingClone</a></div>
+        <ul class="nav-links" id="nav-links"></ul>
+    </nav>
+
+    <div style="padding: 50px 5%;">
+        <h2>Search Results</h2>
+        <div class="property-grid" id="properties-list" style="margin-top: 30px;">
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const city = params.get('city') || '';
+            const type = params.get('type') || '';
+            const budget = params.get('budget') || '';
+
+            const container = document.getElementById('properties-list');
+            try {
+                const properties = await api.get(`/property/all?city=${city}&type=${type}&budget=${budget}`);
+                container.innerHTML = '';
+
+                if (properties.length === 0) {
+                    container.innerHTML = '<p>No properties found matching your criteria.</p>';
+                    return;
+                }
+
+                properties.forEach(property => {
+                    const card = document.createElement('div');
+                    card.className = 'property-card';
+                    card.onclick = () => window.location.href = `/property-details.html?id=${property._id}`;
+
+                    const imagePath = property.images && property.images.length > 0 ? `/${property.images[0]}` : 'https://via.placeholder.com/300x200';
+
+                    card.innerHTML = `
+                        <div class="property-image" style="background-image: url('${imagePath}')"></div>
+                        <div class="property-info">
+                            <div class="property-price">₹${property.price.toLocaleString()}</div>
+                            <div class="property-title">${property.title}</div>
+                            <div class="property-location">${property.city}, ${property.address}</div>
+                            <div class="property-tags">
+                                <span class="tag">${property.type}</span>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (err) {
+                container.innerHTML = '<p>Error loading properties.</p>';
+            }
+        });
+    </script>
+</body>
+
+</html>

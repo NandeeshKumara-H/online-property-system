@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Online Property Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="/">HousingClone</a></div>
+        <ul class="nav-links" id="nav-links"></ul>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="/dashboard.html" class="active">Overview</a></li>
+                <li><a href="/post-property.html">Post Property</a></li>
+                <li><a href="/my-listings.html">My Listings</a></li>
+                <li><a href="/edit-profile.html">Edit Profile</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <h2>Welcome, <span id="user-name">User</span>!</h2>
+            <p>Manage your properties and profile here.</p>
+            <div style="margin-top: 30px; display: flex; gap: 20px;">
+                <div
+                    style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); flex: 1;">
+                    <h3>My Properties</h3>
+                    <p id="property-count" style="font-size: 2rem; font-weight: bold; color: var(--primary-color);">0
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>
