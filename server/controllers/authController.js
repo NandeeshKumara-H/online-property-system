@@ -11,13 +11,13 @@ const generateToken = (user) => {
 // Email Transporter
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 465,          // ✅ IMPORTANT: use 465 instead of 587
-    secure: true,       // ✅ true for port 465
+    port: 587,          // Use 587 for STARTTLS
+    secure: false,      // false for port 587
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
     },
-    connectionTimeout: 20000, // ✅ avoid timeout
+    connectionTimeout: 20000,
 });
 
 const sendEmail = async (to, subject, text) => {
@@ -66,14 +66,15 @@ const signupOtps = new Map();
 exports.initiateSignup = async (req, res) => {
     try {
         const { email, phone } = req.body;
-        const user = await User.findOne({ email });
+        const emailLower = email.toLowerCase();
+        const user = await User.findOne({ email: emailLower });
         if (user) return res.status(400).json({ message: 'User already exists' });
 
         const otp = generateOTP();
-        signupOtps.set(email, { otp, expires: Date.now() + 10 * 60 * 1000 });
+        signupOtps.set(emailLower, { otp, expires: Date.now() + 10 * 60 * 1000 });
 
         // Send Email
-        await sendEmail(email, 'Your Signup OTP', `Your OTP for signup is: ${otp}`);
+        await sendEmail(emailLower, 'Your Signup OTP', `Your OTP for signup is: ${otp}`);
 
         res.json({ message: 'OTP sent to Email' });
     } catch (error) {
@@ -85,17 +86,18 @@ exports.initiateSignup = async (req, res) => {
 exports.verifySignup = async (req, res) => {
     try {
         const { name, email, password, phone, otp } = req.body;
+        const emailLower = email.toLowerCase();
 
-        const stored = signupOtps.get(email);
+        const stored = signupOtps.get(emailLower);
         if (!stored) return res.status(400).json({ message: 'OTP request not found or expired' });
         if (stored.otp !== otp || stored.expires < Date.now()) {
             return res.status(400).json({ message: 'Invalid or expired OTP' });
         }
 
-        const user = new User({ name, email, password, phone });
+        const user = new User({ name, email: emailLower, password, phone });
         await user.save();
 
-        signupOtps.delete(email);
+        signupOtps.delete(emailLower);
 
         const token = generateToken(user);
         res.status(201).json({ token, user: { _id: user._id, name: user.name, email: user.email, role: user.role } });
