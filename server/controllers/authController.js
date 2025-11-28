@@ -2,41 +2,33 @@ const User = require('../models/User');
 const Admin = require('../models/Admin');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
+const brevo = require('@getbrevo/brevo');
 
 const generateToken = (user) => {
     return jwt.sign({ _id: user._id, role: user.role || 'user' }, process.env.JWT_SECRET || 'secretkey', { expiresIn: '1h' });
 };
 
-// Email Transporter
-const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,          // Use 587 for STARTTLS
-    secure: false,      // false for port 587
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
-    connectionTimeout: 20000,
-});
-
 const sendEmail = async (to, subject, text) => {
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-        console.log('>>> EMAIL CREDENTIALS MISSING IN .env <<<');
+    if (!process.env.BREVO_API_KEY) {
+        console.log('>>> BREVO_API_KEY MISSING IN .env <<<');
         console.log(`>>> SIMULATED EMAIL TO ${to}: ${text} <<<`);
         return;
     }
 
+    const apiInstance = new brevo.TransactionalEmailsApi();
+    apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
+
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = `<html><body><p>${text}</p></body></html>`;
+    sendSmtpEmail.sender = { "name": "Property System", "email": process.env.EMAIL_USER }; // Ensure EMAIL_USER is a verified sender in Brevo
+    sendSmtpEmail.to = [{ "email": to }];
+
     try {
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to,
-            subject,
-            text
-        });
-        console.log(`Email sent to ${to}`);
+        await apiInstance.sendTransacEmail(sendSmtpEmail);
+        console.log(`Email sent to ${to} via Brevo`);
     } catch (error) {
-        console.error('Error sending email:', error);
+        console.error('Error sending email via Brevo:', error);
         console.log(`>>> FALLBACK SIMULATION TO ${to}: ${text} <<<`);
     }
 };
