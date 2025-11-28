@@ -21,7 +21,7 @@ const sendEmail = async (to, subject, text) => {
     const sendSmtpEmail = new brevo.SendSmtpEmail();
     sendSmtpEmail.subject = subject;
     sendSmtpEmail.htmlContent = `<html><body><p>${text}</p></body></html>`;
-    sendSmtpEmail.sender = { "name": "Property System", "email": process.env.EMAIL_USER }; // Ensure EMAIL_USER is a verified sender in Brevo
+    sendSmtpEmail.sender = { "name": "Property System", "email": process.env.EMAIL_USER.trim() }; // Ensure EMAIL_USER is a verified sender in Brevo
     sendSmtpEmail.to = [{ "email": to }];
 
     try {
